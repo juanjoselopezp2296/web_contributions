@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<html ng-app="MyApp">
+    <head>
+        <title>Pagination</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!--JQuery-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+        <!--Model-->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <!--JS para Modal-->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+        <!--Propio-->
+        <script src="Resources/js/pagination.js?ver=0.7"></script>
+    </head>
+    <body ng-controller="paginationController as pc">
+        <h1>Test Table Employes</h1>
+        <input class="form-control"  ng-change="pc.updatePagination()" ng-model="searchtxt" placeholder="Search" aria-label="Search">
+        
+        <div class="container-fluid">
+            <ul class="pagination">
+		<li class="page-item"><a href="#" ng-click="pc.changeIndex(currentPage-1)" class="page-link">&larr;</a></li>
+		<li class="page-item" 
+                            ng-repeat="val in jsonEmpListPagination"
+                            ng-class="{active: val.val == currentPage}">
+                    <a ng-click="pc.changeIndex(val.val)" href="#" class="page-link">{{val.val}}</a>
+                </li>
+                <li class="page-item"><a href="#" ng-click="pc.changeIndex(currentPage+1)" class="page-link">&rarr;</a></li>
+            </ul>
+	</div>
+        <table id ="tableEmployes" class="content-table">
+            <thead>
+                    <th>Edit</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="emp in jsonEmpList | filter : searchtxt  | startFrom: (currentPage-1)*entryLimit | limitTo:entryLimit">
+                    <td data-label="Edit" scope="row"><a ng-click=""><i class="glyphicon glyphicon-edit"></i></a></td>
+                    <td data-label="First Name" scope="row">{{emp.firstName}}</td>
+                    <td data-label="Last Name" scope="row">{{emp.lastName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
